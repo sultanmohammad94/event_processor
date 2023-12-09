@@ -1,0 +1,43 @@
+Application: Events Processor
+Entities:
+    - Events
+    - Users
+    - Messages
+    - Training Program
+    - Notifications
+    - Daily Training
+
+Requirements:
+    - Technical:
+        - Micro-service that manages and process events the app pushes to our backend.
+        - This micro-service gets called via a POST operation on one of its endpoints /v1/event.
+
+    - Business:
+        - Our system will receive a continuous series of events.
+        
+        - The events are chronologically ordered.
+
+        - We consider the events are chronologically ordered, meaning, the events come in order of their time_stamp.
+
+        - If a user finishes a training program that is more than 30 minutes long we want to
+            call an api endpoint /v1/notify with a proper message to congratulate the user
+            on doing his daily training dose mentioning the exact minutes he trained.
+            Notifications are handled in another micro-service that we don’t care about in this
+            test. We only have to call /v1/notify
+
+        - If a user opens the app and don’t start any training program within 10 minutes, we
+            want to push a notification to /v1/notify encouraging him to start training now.
+
+        - This system should have the ability to handle unknown (unsupported) events
+            gracefully. It should also handle new events in the future with minimum code
+            changes. So, the design of this system, should keep this in mind.
+
+
+Endpoints:
+    - /v1/event: accepts an event object and process it.
+    - /v1/notify: Send appropriate notification to a user.
+
+Operations:
+    - Manage and process Events.
+    - The events are chronologically ordered.
+    - Send notifications based on conditions.
